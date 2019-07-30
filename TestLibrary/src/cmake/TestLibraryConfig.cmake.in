@@ -1,0 +1,8 @@
+@PACKAGE_INIT@
+
+find_package(ITK REQUIRED COMPONENTS ITKImageIO)
+
+
+if(NOT TARGET TestLibrary)
+    include(${CMAKE_CURRENT_LIST_DIR}/TestLibrary.cmake)
+endif()

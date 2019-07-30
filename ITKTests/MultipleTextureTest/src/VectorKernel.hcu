@@ -1,0 +1,28 @@
+
+
+void
+CUDA_useMultipleTextures(
+	float* pin,
+	float* pout,
+	int* size,
+	int length,
+	int* pts
+);
+
+void
+CUDA_useSingleTexture
+(
+	float * pin,
+	float* pout,
+	int* size,
+	int length
+);
+
+void
+CUDA_useNoTexture
+(
+	float * pin,
+	float* pout,
+	int* size,
+	int length
+);

@@ -1,0 +1,8 @@
+
+
+void
+CUDA_writeVector(
+	float* vector_in,
+	int* size,
+	int length
+);
