@@ -1,0 +1,7 @@
+
+
+template<unsigned Dimension>
+void
+CUDA_testkernel(
+    CudaStruct<Dimension> cs
+);
