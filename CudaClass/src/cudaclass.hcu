@@ -1,0 +1,25 @@
+#ifndef CUDACLASS_HCU
+#define CUDACLASS_HCU
+
+
+template<unsigned int TImageDimension>
+class CudaClass
+{
+public:
+    CudaClass();
+    ~CudaClass();
+
+    void CopyConstData();
+    void SetSize(unsigned int* size);
+
+private:
+    unsigned int m_Size[TImageDimension];
+    float m_Spacing[TImageDimension];
+
+   
+};
+
+
+#endif // !CUDACLASS_HCU
+
+
