@@ -1,7 +1,9 @@
-
+#pragma once
 
 template<unsigned Dimension>
 void
-CUDA_testkernel(
-    CudaStruct<Dimension> cs
-);
+CUDA_copyToConstant(unsigned* size, float* spacing);
+
+template<unsigned Dimension>
+void
+CUDA_testkernel(float* indata, float* outdata);

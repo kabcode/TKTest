@@ -9,13 +9,25 @@ public:
     CudaClass();
     ~CudaClass();
 
-    void CopyConstData();
+
     void SetSize(unsigned int* size);
+    void SetSpacing(float* spacing);
+
+    void Run(float* indata);
+    float* GetData();
 
 private:
-    unsigned int m_Size[TImageDimension];
-    float m_Spacing[TImageDimension];
+    void CopyConstData();
 
+    unsigned int m_Size[4];
+    float m_Spacing[4];
+
+    // GPU data pointer
+    float* d_indata;
+    float* d_data;
+
+    // CPU pointer
+    float* h_data;
    
 };
 
