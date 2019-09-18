@@ -1,0 +1,64 @@
+#ifndef itkCUDATRANSFORM_HCU
+#define itkCUDATRANSFORM_HCU
+
+#include "itkMatrixOffsetTransformBase.h"
+#include "cuda.h"
+
+namespace itk
+{
+    template<typename TParametersValueType, unsigned int NInputDimension = 3, unsigned int NOutputDimension = 3>
+    class _declspec(dllexport) CudaTransform : public itk::MatrixOffsetTransformBase<TParametersValueType, NInputDimension, NOutputDimension>
+    {
+    public:
+
+        using Self = CudaTransform;
+        using Superclass = MatrixOffsetTransformBase<TParametersValueType, NInputDimension, NOutputDimension>;
+        using Pointer = SmartPointer<Self>;
+        using ConstPointer = SmartPointer<const Self>;
+
+        itkNewMacro(Self);
+        itkTypeMacro(CudaTransform, MatrixOffsetTransformBase);
+
+        virtual void SetParameters(const ParametersType & par) override { Superclass::SetParameters(&par)};
+       
+        void FillMatrix(Superclass::MatrixType mat);
+        void Run();
+       
+        template<typename T = TParametersValueType, unsigned int Nin = NInputDimension, unsigned int Nout = NOutputDimension> class DMatrix
+        {
+        public:
+            DMatrix() = default;
+            T m[Nin][Nout];
+        };
+
+        DMatrix<TParametersValueType, NInputDimension, NOutputDimension>* m;
+    protected:
+
+        void CopyMatrixOffsetToGPU();
+
+        CudaTransform() = default;
+        ~CudaTransform() = default;
+
+    };
+
+    template <class T>
+    class CudaTraits
+    {
+    public:
+        using Type = T;
+    };
+
+    template <typename TPixelType, unsigned int NDimension>
+    class CudaTraits< MatrixOffsetTransformBase< TPixelType, NDimension, NDimension > >
+    {
+    public:
+        using Type = CudaTransform<TPixelType, NDimension, NDimension>;
+    };
+
+} // end namespace itk
+
+#ifndef ITK_MANUAL_INSTANTIATION
+#include "itkCudaTransform.cu"
+#endif
+
+#endif

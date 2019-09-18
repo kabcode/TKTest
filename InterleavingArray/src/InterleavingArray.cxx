@@ -2,9 +2,16 @@
 #include <cstdlib>
 #include <iostream>
 
+#include "obj.h"
+
 int main(int argc, char* argv[])
 {
 
+    auto o = new obj;
+    o->startThread();
+    delete o;
+
+    /*
 	const auto arrSize = 52428800; // entries for the initial array
 	auto arr = new double[arrSize * 3]; // 3 sequential elements are a group
 
@@ -31,7 +38,7 @@ int main(int argc, char* argv[])
 
 	delete[] arr;
 	delete[] larr;
-
+    */
 	/* Pointer array test*/
 	double array[] = { 0,1,2,3,4,5};
 

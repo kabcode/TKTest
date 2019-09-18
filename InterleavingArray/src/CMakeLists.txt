@@ -3,10 +3,12 @@ cmake_minimum_required (VERSION 3.10)
 # This project is designed to be built outside the RTK source tree.
 project(InterleavingArray)
 
-set(CMAKE_CXX_STANDARD 17)
+#set(CMAKE_CXX_STANDARD 14)
 
 set (SRCS
 	${CMAKE_PROJECT_NAME}.cxx
+	obj.h
+	obj.cxx
 )
 
 add_executable(${CMAKE_PROJECT_NAME}

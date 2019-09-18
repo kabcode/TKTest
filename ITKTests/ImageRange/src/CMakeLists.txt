@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10.2)
 project(ImageRange)
 
-find_package(ITK REQUIRED COMPONENTS ITKIOImageBase ITKIOTransformBase ITKIOXML ITKImageGrid ITKImageIntensity ITKThresholding ITKTransform ITKImageIO ITKTransformIO)
+find_package(ITK REQUIRED COMPONENTS ITKIOImageBase ITKIOTransformBase ITKIOXML ITKImageGrid ITKImageIntensity ITKThresholding ITKTransform ITKImageIO ITKImageGradient ITKTransformIO)
 include(${ITK_USE_FILE})
 
 set( SRCS
