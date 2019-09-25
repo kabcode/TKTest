@@ -5,6 +5,9 @@
 #include "itkGradientDifferenceImageToImageMetric.h"
 #include "itkAdvGradientDifferenceImageToImageMetric.h"
 
+#include "itkSobelOperator.h"
+#include "itkNeighborhoodOperatorImageFilter.h"
+
 
 using ImageType = itk::Image<double, 3>;
 using VectorImageType = itk::Image<itk::CovariantVector<double, 3>, 3>;
@@ -30,13 +33,26 @@ int main(int argc, char* argv[])
     auto GDMetric = itk::GradientDifferenceImageToImageMetric<ImageType, ImageType>::New();
     GDMetric->SetInterpolator(InterpolatorFunction);
     GDMetric->SetTransform(Transform);
-
+    
     GDMetric->SetFixedImage(image1);
     GDMetric->SetFixedImageRegion(image1->GetLargestPossibleRegion());
     GDMetric->SetMovingImage(image2);
 
     GDMetric->Initialize();
-    auto GDValue = GDMetric->GetValue(parameters);
+    //auto GDValue = GDMetric->GetValue(parameters);
+
+    auto GradientImageFilter = itk::GradientImageFilter<ImageType, double, double>::New();
+    GradientImageFilter->SetInput(image1);
+    auto AdvImageFileWriter = itk::ImageFileWriter<VectorImageType>::New();
+    AdvImageFileWriter->SetInput(GradientImageFilter->GetOutput());
+    AdvImageFileWriter->SetFileName("vec1ADG.nrrd");
+    AdvImageFileWriter->Update();
+
+    auto FixedGradientImage = GDMetric->GetGradientImages(true);
+    auto ImageFileWriter = itk::ImageFileWriter<VectorImageType>::New();
+    ImageFileWriter->SetInput(FixedGradientImage);
+    ImageFileWriter->SetFileName("vec1GD.nrrd");
+    ImageFileWriter->Update();
 
     auto AGDMetric = itk::AdvGradientDifferenceImageToImageMetric<ImageType, ImageType>::New();
     AGDMetric->SetInterpolator(InterpolatorFunction);
@@ -49,26 +65,7 @@ int main(int argc, char* argv[])
     AGDMetric->Initialize();
     auto AGDValue = AGDMetric->GetValue(parameters);
 
-    //AGDMetric->GetModifiableGradientImage()->Update();
-    GDMetric->GetModifiableGradientImage()->Update();
-
-    auto SubtractionImageFilter = itk::SubtractImageFilter<VectorImageType, VectorImageType>::New();
-    SubtractionImageFilter->SetInput1(AGDMetric->GetModifiableGradientImage());
-    SubtractionImageFilter->SetInput2(GDMetric->GetModifiableGradientImage());
-
-    auto ImageWriter = itk::ImageFileWriter<VectorImageType>::New();
-    ImageWriter->SetInput(SubtractionImageFilter->GetOutput());
-    ImageWriter->SetFileName("GDiffImage.nrrd");
-    try
-    {
-        ImageWriter->Update();
-    }
-    catch (itk::ExceptionObject &EO)
-    {
-        EO.Print(std::cout);
-    }
-    
-
-    std::cout << "GD:  " << GDValue << std::endl;
+    //std::cout << "GD:  " << GDValue << std::endl;
     std::cout << "AGD: " << AGDValue << std::endl;
+    //std::cout << "Diff: " << abs(AGDValue - GDValue) << std::endl;
 }
