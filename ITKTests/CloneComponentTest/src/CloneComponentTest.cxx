@@ -71,20 +71,26 @@ int main(int argc, char* argv[])
 	std::cout << "\n            Metric Clone Test           " << std::endl;
 	std::cout << "========================================\n" << std::endl;
 
-	using MetricType = itk::MeanSquaresImageToImageMetric<ImageType, ImageType>;
+    using MetricType = itk::ImageToImageMetric<ImageType, ImageType>;
+    using MetricTypePointer = MetricType::Pointer;
+    auto VecMetric = std::vector<MetricTypePointer>();
 
-	auto Metric = MetricType::New();
-	Metric->SetUseAllPixels(false);
-	Metric->SetUseFixedImageIndexes(true);
-	Metric->SetComputeGradient(false);
-	Metric.Print(std::cout);
+	using MSMetricType = itk::MeanSquaresImageToImageMetric<ImageType, ImageType>;
+
+	auto MSMetric = MSMetricType::New();
+    MSMetric->SetUseAllPixels(false);
+    MSMetric->SetUseFixedImageIndexes(true);
+    MSMetric->SetComputeGradient(false);
+    VecMetric.push_back(MSMetric);
+    MSMetric.Print(std::cout);
 	std::cout << "========================================" << std::endl;
 
-	auto AnotherMetric = Metric->CreateAnother();
+	auto AnotherMetric = MSMetric->CreateAnother();
 	AnotherMetric->Print(std::cout);
 	std::cout << "========================================" << std::endl;
 
-	auto ClonedMetric = Metric->Clone();
+	const auto ClonedMetric = MSMetric->Clone();
+    VecMetric.push_back(ClonedMetric);
 	ClonedMetric->Print(std::cout);
 	std::cout << "========================================" << std::endl;
 
@@ -96,30 +102,34 @@ int main(int argc, char* argv[])
 	using InterpolatorTypePointer = InterpolatorType::Pointer;
 	auto VecInterp = std::vector<InterpolatorTypePointer>();
 
-	auto NNInterpolator = itk::NearestNeighborInterpolateImageFunction<ImageType>::New();
-	InterpolatorTypePointer masterinterp;
-	masterinterp = NNInterpolator;
+	const auto NNInterpolator = itk::NearestNeighborInterpolateImageFunction<ImageType>::New();
+	const InterpolatorTypePointer masterinterp = NNInterpolator;
 
-	auto GInterpolator = itk::GaussianInterpolateImageFunction<ImageType>::New();
+	const auto GInterpolator = itk::GaussianInterpolateImageFunction<ImageType>::New();
 	VecInterp.push_back(GInterpolator);
 	VecInterp[0]->Print(std::cout);
 
-	auto LInterpolator = itk::LinearInterpolateImageFunction<ImageType>::New();
+	const auto LInterpolator = itk::LinearInterpolateImageFunction<ImageType>::New();
 	VecInterp.push_back(LInterpolator);
 	VecInterp[1]->Print(std::cout);
 	std::cout << "========================================" << std::endl;
 
 	auto AnotherInterpolator = GInterpolator->Clone();
-	auto image = ImageType::New();
+	const auto image = ImageType::New();
 	VecInterp.push_back(AnotherInterpolator);
 	AnotherInterpolator->SetInputImage(image);
 	VecInterp[2]->Print(std::cout);
 	std::cout << "========================================" << std::endl;
 
-	auto ClonedInterpolator = masterinterp->Clone();
+	const auto ClonedInterpolator = NNInterpolator->Clone();
 	ClonedInterpolator->Print(std::cout);
-	VecInterp.push_back(ClonedInterpolator.GetPointer());
+	VecInterp.push_back(ClonedInterpolator);
 	VecInterp[3]->Print(std::cout);
+
+    std::cout << "========================================" << std::endl;
+    const auto Interpolator = InterpolatorType::New();
+    auto CloneInterpolator = Interpolator->Clone();
+    CloneInterpolator->Print(std::cout);
 
 
 	return EXIT_SUCCESS;
