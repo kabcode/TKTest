@@ -31,5 +31,11 @@ int main()
         Bar(i);
     }
 
+    for (auto i = 0; i < 1000000; ++i)
+    {
+        Bar(i);
+        Foo(i);
+    }
+
     return EXIT_SUCCESS;
 }
