@@ -6,13 +6,31 @@
 
 using namespace std::chrono;
 
+void Foo(const unsigned int i)
+{
+    std::string* moreInformation = nullptr;
+    moreInformation = new std::string();
+    auto res = (*moreInformation).empty();
+
+    if (i % 1000 == 0)
+    {
+        moreInformation = new std::string();
+        *moreInformation = "Hello!";
+    }
+
+
+    delete moreInformation;
+}
+
 int main(int argc, char* argv[]  )
 {
+    Foo(1);
+
 
     auto CudaImage = itk::CudaImage<float, 3>::New();
     auto DataManager = CudaImage->GetDataManager();
 
-    std::vector<double> durations{ 10 };
+    std::vector<double> durations{ 1000 };
 
     for (auto& duration : durations)
     {
