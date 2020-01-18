@@ -7,18 +7,16 @@
 #include <iostream>
 #include <vector>
 
-#include "itkImage.h"
-
 template<unsigned int TSize>
 auto CudaChainProcess<TSize>::Run() -> void
 {
     std::cout << "Run..." << std::endl;
 
-    std::vector<int> in{ 1,2,3,4 };
-    int out = 0;
+    const std::vector<int> in{ 1,2,3,4 };
+    std::vector<int> out(0);
     CUDA_process(in, out);
 
-    std::cout << "Run: " << out << std::endl;
+    std::cout << "Run: " << out[0] << std::endl;
 }
 
 template<unsigned int TSize>

@@ -1,11 +1,8 @@
 cmake_minimum_required(VERSION 3.10.2)
-project(RTKProcessChainTest)
+project(RTKProcessChainTest CXX CUDA)
 
-set(CMAKE_CXX_STANDARD 17)
-
-find_package(ITK REQUIRED COMPONENTS ITKCommon RTK)
+find_package(ITK REQUIRED COMPONENTS ITKCommon)
 include(${ITK_USE_FILE})
-
 
 set( SRCS
 	${CMAKE_PROJECT_NAME}.cxx
@@ -13,6 +10,7 @@ set( SRCS
 	CudaProcessChain.hxx
 	CudaProcessChain.hcu
 	CudaProcessChain.cu
+	Reduce_kernel.hcu
 )
 
 cuda_add_executable(${CMAKE_PROJECT_NAME} ${SRCS})

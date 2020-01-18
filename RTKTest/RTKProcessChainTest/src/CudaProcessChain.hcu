@@ -1,10 +1,12 @@
 
 #include <vector>
 #include <cuda.h>
+#include <cuda_runtime.h>
+
 #include <cuda_runtime_api.h>
 
 void
 CUDA_process(
     std::vector<int> input,
-    int& output
+    std::vector<int>& output
 );
