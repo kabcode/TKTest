@@ -16,5 +16,5 @@ int main(int argc, char* argv[])
 
     std::cout << CudaImageToImageMetric->GetNameOfClass() << std::endl;
 
-    return EXIT_SUCCESS
+    return EXIT_SUCCESS;
 }

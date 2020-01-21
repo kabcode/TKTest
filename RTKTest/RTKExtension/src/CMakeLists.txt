@@ -1,15 +1,14 @@
 cmake_minimum_required (VERSION 3.10)
 
 # This project is designed to be built outside the RTK source tree.
-project(ITKCudaCommonExt)
+project(RTKExtension)
 
 # Find the RTK libraries and includes
 find_package(ITK COMPONENTS ITKCudaCommon RTK)
 include(${ITK_USE_FILE})
 
 set(TEST_SRCS
-	CudaImageToImageMetricTest.cxx
-	CudaGradientImageFilterTest.cxx
+    CudaGradientImageFilterTest.cxx
 )
 
 # Executable
