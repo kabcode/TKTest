@@ -14,6 +14,6 @@ set(TEST_SRCS
 # Executable
 add_executable(${CMAKE_PROJECT_NAME} ${TEST_SRCS} )
 target_link_libraries(${CMAKE_PROJECT_NAME}
-	${RTK_LIBRARIES}
 	${ITK_LIBRARIES}
+    RTK
 )
