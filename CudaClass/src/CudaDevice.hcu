@@ -1,0 +1,26 @@
+#ifndef CUDADEVICE_HCU
+#define CUDADEVICE_HCU
+
+#include "cuda.h"
+#include "cuda_runtime_api.h"
+#include "device_launch_parameters.h"
+
+class CudaDevice
+{
+public:
+    CudaDevice();
+    ~CudaDevice() = default;
+
+     void Run();
+   
+
+private:
+    int numbers[5] = { 1, 2, 3, 4, 5 };
+    
+};
+
+__global__ void RevealNumber(int* number, unsigned int number_size);
+
+#endif // !CUDADEVICE_HCU
+
+

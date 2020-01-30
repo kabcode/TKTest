@@ -1,0 +1,24 @@
+#ifndef CUDAHOST_HCU
+#define CUDAHOST_HCU
+
+#include "CudaDevice.hcu"
+
+class CudaHost
+{
+public:
+    CudaHost();
+    ~CudaHost();
+
+    void Run();
+
+private:
+    CudaDevice* cudadevice_d{nullptr};
+
+    
+};
+
+__global__ void InstantiateCudaDeviceClass(CudaDevice* d_ptr);
+__global__ void RunDeviceKernels(CudaDevice& d_ptr);
+__global__ void DeleteCudaDeviceClass(CudaDevice* d_ptr);
+
+#endif
