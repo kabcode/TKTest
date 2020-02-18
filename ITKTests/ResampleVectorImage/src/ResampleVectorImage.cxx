@@ -43,7 +43,10 @@ int main(int argc, char* argv[])
 	}
 
     auto Transform = EulerTransformType::New();
-    Transform->SetIdentity();
+    EulerTransformType::OutputVectorType translation;
+    translation.Fill(15);
+    translation[2] = 0;
+    Transform->SetTranslation(translation);
 
 	auto ResampleFilter = ResampleVectorImageFilterType::New();
 	ResampleFilter->SetInput(GradientImageFilter->GetOutput());
@@ -53,9 +56,10 @@ int main(int argc, char* argv[])
 	ResampleFilter->SetSize(ImageReader->GetOutput()->GetLargestPossibleRegion().GetSize());
 	ResampleFilter->SetOutputSpacing(ImageReader->GetOutput()->GetSpacing());
 
-	auto OutputOrigin = Transform->GetInverseTransform()->TransformPoint(ImageReader->GetOutput()->GetOrigin());
-	ResampleFilter->SetOutputOrigin(OutputOrigin);
-	auto OutputDirection = Transform->GetMatrix().GetInverse() * ImageReader->GetOutput()->GetDirection().GetVnlMatrix();
+	//const auto OutputOrigin = Transform->GetInverseTransform()->TransformPoint(ImageReader->GetOutput()->GetOrigin());
+	//ResampleFilter->SetOutputOrigin(OutputOrigin);
+    ResampleFilter->SetOutputOrigin(ImageReader->GetOutput()->GetOrigin());
+	const auto OutputDirection = Transform->GetMatrix().GetInverse() * ImageReader->GetOutput()->GetDirection().GetVnlMatrix();
     ResampleFilter->SetOutputDirection(OutputImageType::DirectionType{ OutputDirection });
     //ResampleFilter->Update();
     
@@ -72,7 +76,7 @@ int main(int argc, char* argv[])
     }
     durations.erase(durations.begin(),durations.begin()+2 );
   
-    auto sum = std::accumulate(durations.begin(), durations.end(), 0);
+    const auto sum = std::accumulate(durations.begin(), durations.end(), 0LL);
     std::cout << "MEAN: " << sum / durations.size() << std::endl;
 
 	auto ImageWriter = ImageWriterType::New();
