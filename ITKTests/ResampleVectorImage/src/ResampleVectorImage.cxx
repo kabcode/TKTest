@@ -68,39 +68,39 @@ int main(int argc, char* argv[])
 				++iter;
 			}
 		}
-		if(i = 3) std::cout << sum << std::endl;
+		if(i == 3) std::cout << sum << std::endl;
 
 		itk::Experimental::ImageBufferRange<VectorImageType> range{ *img };
 		sum.Fill(0);
 		{
 			auto Timer{ HighPrecisionTimer<TimeUnits::Microseconds>() };
-			for each (auto&& var in range)
+			for (auto&& var : range)
 			{
 				sum = sum + var;
 			}
 		}
-		if (i = 3)  std::cout << sum << std::endl;
+		if (i == 3)  std::cout << sum << std::endl;
 
 		sum.Fill(0);
 		{
 			auto Timer{ HighPrecisionTimer<TimeUnits::Microseconds>() };
 			sum = std::reduce(std::execution::seq, range.begin(), range.end(), sum);
 		}
-		if (i = 3)  std::cout << sum << std::endl;
+		if (i == 3)  std::cout << sum << std::endl;
 
 		sum.Fill(0);
 		{
 			auto Timer{ HighPrecisionTimer<TimeUnits::Microseconds>() };
 			sum = std::reduce(std::execution::par, range.begin(), range.end(), sum);
 		}
-		if (i = 3)  std::cout << sum << std::endl;
+		if (i == 3)  std::cout << sum << std::endl;
 
 		sum.Fill(0);
 		{
 			auto Timer{ HighPrecisionTimer<TimeUnits::Microseconds>() };
 			sum = std::reduce(std::execution::par_unseq, range.begin(), range.end(), sum);
 		}
-		if (i = 3)  std::cout << sum << std::endl;
+		if (i == 3)  std::cout << sum << std::endl;
 	}
 
 	/*
